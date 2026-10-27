@@ -13,6 +13,12 @@ router = APIRouter()
 
 @router.post("/", response_model=SuscripcionResponse, status_code=status.HTTP_201_CREATED)
 async def create_suscripcion(payload: SuscripcionCreate, db: AsyncSession = Depends(get_db)):
+    """
+Crea de forma asincrónica una nueva suscripción en el sistema.
+Toma los datos validados del payload (Pydantic), los mapea al modelo
+de SQLAlchemy, persiste el registro en la base de datos de manera
+no bloqueante y retorna el objeto creado con su ID asignado.
+"""
     nueva_sub = Suscripcion(**payload.model_dump())
     db.add(nueva_sub)
     await db.commit()
@@ -21,6 +27,12 @@ async def create_suscripcion(payload: SuscripcionCreate, db: AsyncSession = Depe
 
 @router.get("/{suscripcion_id}", response_model=SuscripcionResponse)
 async def get_suscripcion(suscripcion_id: int, db: AsyncSession = Depends(get_db)):
+    """
+Busca y retorna una suscripción específica mediante su identificador único.
+Ejecuta una consulta select asincrónica. Si el registro existe en la
+base de datos, lo devuelve formateado según el esquema de respuesta;
+de lo contrario, lanza una excepción de entidad no encontrada (404).
+"""
     result = await db.execute(select(Suscripcion).where(Suscripcion.id == suscripcion_id))
     suscripcion = result.scalars().first()
     if not suscripcion:
