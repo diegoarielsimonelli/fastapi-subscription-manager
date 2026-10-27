@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    container_name: fastapi_subscription_api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Sincroniza solo tu código fuente para mantener la recarga automática activa al editar
+      - ./src:/app/src
+    environment:
+      # La base de datos se creará y guardará de forma aislada dentro del contenedor
+      - DATABASE_URL=sqlite+aiosqlite:///./suscripciones_docker.db
+      - ENV=development
+    restart: always

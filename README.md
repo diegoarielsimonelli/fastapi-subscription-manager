@@ -66,3 +66,18 @@ Una vez levantado, puedes acceder a la documentación interactiva en: 
 
 * **Swagger UI:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 * **ReDoc:** [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+##  Despliegue con Docker
+
+Este proyecto está completamente contenedorizado utilizando compilaciones multi-etapa optimizadas con `uv`. Para levantar la API de forma aislada en cualquier entorno, asegúrate de tener Docker instalado y ejecuta:
+
+```bash
+# Clonar el proyecto y entrar al directorio
+cd fastapi-practice
+
+# Construir y levantar el contenedor en segundo plano
+docker compose up --build -d
+```
+
+La documentación interactiva estará disponible automáticamente en:
+* [http://localhost:8000/docs](http://localhost:8000/docs)
